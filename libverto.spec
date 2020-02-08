@@ -9,7 +9,7 @@ Summary:	Main loop abstraction library
 Summary(pl.UTF-8):	Biblioteka abstrakcji głównej pętli
 Name:		libverto
 Version:	0.2.6
-Release:	2
+Release:	3
 License:	MIT
 Group:		Libraries
 Source0:	https://fedorahosted.org/releases/l/i/libverto/%{name}-%{version}.tar.gz
