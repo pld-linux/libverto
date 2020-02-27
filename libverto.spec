@@ -8,15 +8,17 @@
 Summary:	Main loop abstraction library
 Summary(pl.UTF-8):	Biblioteka abstrakcji głównej pętli
 Name:		libverto
-Version:	0.2.6
-Release:	3
+Version:	0.3.1
+Release:	1
 License:	MIT
 Group:		Libraries
-Source0:	https://fedorahosted.org/releases/l/i/libverto/%{name}-%{version}.tar.gz
-# Source0-md5:	d4e81c21403031089d71eaab07708b89
-URL:		https://fedorahosted.org/libverto/
+#Source0Download: https://github.com/latchset/libverto/releases
+Source0:	https://github.com/latchset/libverto/releases/download/%{version}/%{name}-%{version}.tar.gz
+# Source0-md5:	6e19b2895095821938998034ff7f367f
+URL:		https://github.com/latchset/libverto
 #BuildRequires:	autoconf >= 2.59
 #BuildRequires:	automake >= 1:1.11
+BuildRequires:	gcc >= 5:3.2
 BuildRequires:	glib2-devel >= 2.0
 %{?with_libev:BuildRequires:	libev-devel}
 %{?with_libevent:BuildRequires:	libevent-devel >= 2.0}
