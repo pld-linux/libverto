@@ -2,19 +2,18 @@
 # Conditional build:
 %bcond_without	libev		# libev interface
 %bcond_without	libevent	# libevent interface
-%bcond_without	tevent		# tevent interface
 %bcond_without	static_libs	# static libraries
 #
 Summary:	Main loop abstraction library
 Summary(pl.UTF-8):	Biblioteka abstrakcji głównej pętli
 Name:		libverto
-Version:	0.3.1
+Version:	0.3.2
 Release:	1
 License:	MIT
 Group:		Libraries
 #Source0Download: https://github.com/latchset/libverto/releases
 Source0:	https://github.com/latchset/libverto/releases/download/%{version}/%{name}-%{version}.tar.gz
-# Source0-md5:	6e19b2895095821938998034ff7f367f
+# Source0-md5:	1a4c87aab091fa00fef9098d860dcc90
 URL:		https://github.com/latchset/libverto
 #BuildRequires:	autoconf >= 2.59
 #BuildRequires:	automake >= 1:1.11
@@ -24,7 +23,7 @@ BuildRequires:	glib2-devel >= 2.0
 %{?with_libevent:BuildRequires:	libevent-devel >= 2.0}
 #BuildRequires:	libtool
 BuildRequires:	pkgconfig
-%{?with_tevent:BuildRequires:	tevent-devel}
+Obsoletes:	libverto-tevent < 0.3.2
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -44,6 +43,8 @@ Summary:	Header files for verto library
 Summary(pl.UTF-8):	Pliki nagłówkowe biblioteki verto
 Group:		Development/Libraries
 Requires:	%{name} = %{version}-%{release}
+Obsoletes:	libverto-tevent-devel < 0.3.2
+Obsoletes:	libverto-tevent-static < 0.3.2
 
 %description devel
 Header files for verto library.
@@ -177,44 +178,6 @@ Static libverto-libevent library.
 %description libevent-static -l pl.UTF-8
 Statyczna biblioteka libverto-libevent.
 
-%package tevent
-Summary:	libverto module providing integration with tevent
-Summary(pl.UTF-8):	Moduł libverto zapewniający integrację z biblioteką tevent
-Group:		Libraries
-Requires:	%{name} = %{version}-%{release}
-
-%description tevent
-libverto module providing integration with tevent.
-
-%description tevent -l pl.UTF-8
-Moduł libverto zapewniający integrację z biblioteką tevent.
-
-%package tevent-devel
-Summary:	Header file for libverto-tevent library
-Summary(pl.UTF-8):	Plik nagłówkowy biblioteki libverto-tevent
-Group:		Development/Libraries
-Requires:	%{name}-devel = %{version}-%{release}
-Requires:	%{name}-tevent = %{version}-%{release}
-Requires:	tevent-devel
-
-%description tevent-devel
-Header file for libverto-tevent library.
-
-%description tevent-devel -l pl.UTF-8
-Plik nagłówkowy biblioteki libverto-tevent.
-
-%package tevent-static
-Summary:	Static libverto-tevent library
-Summary(pl.UTF-8):	Statyczna biblioteka libverto-tevent
-Group:		Development/Libraries
-Requires:	%{name}-tevent-devel = %{version}-%{release}
-
-%description tevent-static
-Static libverto-tevent library.
-
-%description tevent-static -l pl.UTF-8
-Statyczna biblioteka libverto-tevent.
-
 %prep
 %setup -q
 
@@ -223,8 +186,8 @@ Statyczna biblioteka libverto-tevent.
 	--disable-silent-rules \
 	%{!?with_static_libs:--disable-static} \
 	%{!?with_libev:--without-libev} \
-	%{!?with_libevent:--without-libevent} \
-	%{!?with_tevent:--without-tevent}
+	%{!?with_libevent:--without-libevent}
+
 %{__make}
 
 %install
@@ -250,9 +213,6 @@ rm -rf $RPM_BUILD_ROOT
 
 %post	libevent -p /sbin/ldconfig
 %postun	libevent -p /sbin/ldconfig
-
-%post	tevent -p /sbin/ldconfig
-%postun	tevent -p /sbin/ldconfig
 
 %files
 %defattr(644,root,root,755)
@@ -325,24 +285,5 @@ rm -rf $RPM_BUILD_ROOT
 %files libevent-static
 %defattr(644,root,root,755)
 %{_libdir}/libverto-libevent.a
-%endif
-%endif
-
-%if %{with tevent}
-%files tevent
-%defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/libverto-tevent.so.*.*.*
-%attr(755,root,root) %ghost %{_libdir}/libverto-tevent.so.1
-
-%files tevent-devel
-%defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/libverto-tevent.so
-%{_includedir}/verto-tevent.h
-%{_pkgconfigdir}/libverto-tevent.pc
-
-%if %{with static_libs}
-%files tevent-static
-%defattr(644,root,root,755)
-%{_libdir}/libverto-tevent.a
 %endif
 %endif
