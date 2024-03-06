@@ -8,7 +8,7 @@ Summary:	Main loop abstraction library
 Summary(pl.UTF-8):	Biblioteka abstrakcji głównej pętli
 Name:		libverto
 Version:	0.3.2
-Release:	1
+Release:	2
 License:	MIT
 Group:		Libraries
 #Source0Download: https://github.com/latchset/libverto/releases
